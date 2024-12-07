@@ -1,56 +1,118 @@
-To ensure the best quality is selected **before downloading** using `yt-dlp` and `ffmpeg`, you can use the following approach:
+Here's the updated **README** for the project **yt-clip-cut-download** tailored for your user **moboutig**:
 
 ---
 
-### Steps to Select Best Quality Before Downloading
+# **yt-clip-cut-download: YouTube Video Slicing and Downloading App**  
 
-1. **Fetch Available Formats**:  
-   Use `yt-dlp` to list all available formats for the video.  
+## **Overview**  
+Welcome to **yt-clip-cut-download**! This app allows users to:  
+1. Input a YouTube video URL.  
+2. Specify the start and end times to extract a clip.  
+3. Download the trimmed video or audio instantly.
 
-   ```bash
-   yt-dlp -F <video_url>
-   ```
+Built with **Go** for high performance, leveraging Go routines for concurrency, and **FFmpeg** for video processing, this app ensures fast and efficient slicing of YouTube content.
 
-   This command lists the available video formats with details like resolution, codecs, and bitrate.
+---
 
-2. **Filter Best Quality**:  
-   Use the format code for the highest resolution and best quality. For example, to select the highest quality MP4 format:  
+## **Features**  
+- **Paste YouTube URL**: Simply paste a YouTube video URL.  
+- **Trim Section**: Specify the start and end times for the clip you want to download.  
+- **Multiple Formats**: Download the video as **MP4** or audio as **MP3**.  
+- **High Performance**: Go routines handle multiple downloads and processing concurrently for fast performance.  
 
-   ```bash
-   yt-dlp -f bestvideo[ext=mp4]+bestaudio[ext=m4a] <video_url>
-   ```
+---
 
-   This ensures you download the best video and audio streams, which can be merged.
+## **Tech Stack**  
+- **Backend**:  
+  - **Go**: For high-performance server-side logic, using **gin-gonic** for HTTP routing.  
+  - **yt-dlp**: A powerful tool for downloading videos from YouTube.  
+  - **FFmpeg**: Used for trimming and converting videos into the desired format.  
+  - **Redis**: Optimizes caching for repeat requests and speeds up the app.  
 
-3. **Merge Video and Audio (if required)**:  
-   If the video and audio are separate streams, `yt-dlp` automatically uses `ffmpeg` to merge them into a single file.  
+- **Frontend**:  
+  - **React.js**: For a smooth, responsive user interface.  
+  - **TailwindCSS**: Provides a sleek, modern design for the frontend.  
 
-   Ensure `ffmpeg` is installed and available in your PATH for this to work seamlessly.  
+- **Hosting**:  
+  - **Docker**: Ensures portability and easy deployment across environments.  
+  - **Kubernetes**: Manages scaling for high traffic demands.  
+  - **Cloudflare CDN**: Ensures fast and reliable delivery of files to users.  
 
-4. **Fallback to Custom Quality**:  
-   If a user specifies a lower resolution (e.g., 720p or 144p), pass the specific format code for that quality:  
+---
 
-   ```bash
-   yt-dlp -f <format_code> <video_url>
-   ```
+## **Setup Instructions**  
 
-   Example: To download 720p MP4:  
+### **Prerequisites**  
+Make sure you have the following installed:  
+- **Go** (1.19 or later)  
+- **yt-dlp**: Install via `pip install yt-dlp`  
+- **FFmpeg**: Follow the [FFmpeg installation guide](https://ffmpeg.org/download.html)  
+- **Docker**: (Optional, for containerization)  
 
-   ```bash
-   yt-dlp -f 'bestvideo[height<=720][ext=mp4]+bestaudio[ext=m4a]' <video_url>
-   ```
+---
 
-5. **Conversion to MP4 (if required)**:  
-   If the downloaded format is not MP4, use `ffmpeg` to convert it:  
+### **Steps to Run Locally**  
+1. Clone the repository:  
+   ```bash  
+   git clone https://github.com/moboutig/yt-clip-cut-download.git  
+   cd yt-clip-cut-download  
+   ```  
 
-   ```bash
-   ffmpeg -i input_file -c:v copy -c:a copy output.mp4
-   ```
+2. Build and run the backend:  
+   ```bash  
+   go run main.go  
+   ```  
 
-6. **Automate Selection in Backend**:  
-   In your Go backend, automate this process:  
-   - Use `yt-dlp` to fetch formats.  
-   - Parse the format list to find the best match.  
-   - Execute the appropriate `yt-dlp` and `ffmpeg` commands to download and convert.  
+3. Run the frontend:  
+   ```bash  
+   cd frontend  
+   npm install  
+   npm start  
+   ```  
 
-Would you like an example of the Go backend code to handle this?
+4. Open your browser at `http://localhost:8080`.  
+
+---
+
+## **API Endpoints**  
+- **POST /process**  
+  - **Description**: Process video trimming request.  
+  - **Parameters**:  
+    - `url`: YouTube video URL  
+    - `start`: Start time (HH:MM:SS)  
+    - `end`: End time (HH:MM:SS)  
+    - `format`: Output format (MP4 for video, MP3 for audio)  
+
+---
+
+## **Scaling and Deployment**  
+- **Docker**: To containerize the application, run:  
+  ```bash  
+  docker build -t yt-clip-cut-download .  
+  docker run -p 8080:8080 yt-clip-cut-download  
+  ```  
+
+- **Kubernetes**: For scaling, deploy to Kubernetes for managing load.  
+
+---
+
+## **Contributing**  
+1. Fork the repository.  
+2. Create a feature branch:  
+   ```bash  
+   git checkout -b feature-name  
+   ```  
+3. Commit your changes:  
+   ```bash  
+   git commit -m "Add feature"  
+   ```  
+4. Push and create a pull request.  
+
+---
+
+## **License**  
+This project is licensed under the **MIT License**.  
+
+---
+
+Let me know if you need any further customization for your README!
