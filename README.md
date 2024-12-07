@@ -112,7 +112,3 @@ Make sure you have the following installed:
 
 ## **License**  
 This project is licensed under the **MIT License**.  
-
----
-
-Let me know if you need any further customization for your README!
